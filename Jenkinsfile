@@ -1,31 +1,62 @@
 @Library('my-jenkins-shared-library') _
 
 pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                buildApplication([
-                    imageName: 'order-service',
-                    tag: 'v1.0'
-                ])
-            }
-        }
-        stage('Test') {
-            steps {
-                runTests([
-                    imageName: 'order-service'
-                ])
-            }
-        }
-        stage('Deploy') {
-            steps {
-                deployToEnvironment([
-                    imageName: 'order-service',
-                    tag: 'v1.0',
-                    environment: 'dev'
-                ])
-            }
-        }
+  agent any
+
+  environment {
+    VERSION = generateVersion()
+  }
+
+  options {
+    timestamps()
+    ansiColor('xterm')
+  }
+
+  stages {
+
+    stage('Build') {
+      steps {
+        buildApplication([
+          appName     : 'order-service',
+          buildTool   : 'maven',
+          dockerImage : 'maven:3.9.3-eclipse-temurin-17',
+          skipTests   : false
+        ])
+      }
     }
+
+    stage('Test') {
+      steps {
+        runTests([
+          testType    : 'unit',
+          buildTool   : 'maven',
+          testReports : true
+        ])
+      }
+    }
+
+    stage('Deploy') {
+      when {
+        expression { isMainBranch() }
+      }
+      steps {
+        deployToEnvironment([
+          appName    : 'order-service',
+          version    : "${VERSION}",
+          environment: 'dev'
+          // namespace, replicas, etc. will be auto-loaded from Environment.groovy
+        ])
+      }
+    }
+  }
+
+  post {
+    always {
+      archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true
+      sendNotification("📦 Build for *order-service* completed. Version: ${VERSION}")
+    }
+    failure {
+      sendNotification("❌ Build FAILED for *order-service*. Check Jenkins logs.")
+    }
+  }
 }
