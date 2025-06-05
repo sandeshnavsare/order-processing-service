@@ -36,7 +36,7 @@ pipeline {
         runTests([
           testType    : 'unit',
           buildTool   : 'maven',
-          testReports : true
+          testReports : false
         ])
       }
     }
