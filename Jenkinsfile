@@ -49,6 +49,7 @@ pipeline {
           appName    : 'order-service',
           version    : "${VERSION}",
           environment: "${params.DEPLOY_ENV}"
+          healthUrl : 'http://172.31.26.111:8089/health'
           // namespace, replicas, etc. will be auto-loaded from Environment.groovy
         ])
       }
