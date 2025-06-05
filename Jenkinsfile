@@ -11,10 +11,7 @@ pipeline {
     choice(name: 'DEPLOY_ENV', choices: ['dev', 'staging', 'production'], description: 'Select deployment environment')
   }
 
-  options {
-    timestamps()
-    ansiColor('xterm')
-  }
+  
 
   stages {
     stage('Checkout') {
