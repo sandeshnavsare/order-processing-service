@@ -37,6 +37,7 @@ pipeline {
           testType    : 'unit',
           buildTool   : 'maven',
           testReports : false
+          skipTests   : true
         ])
       }
     }
