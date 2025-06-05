@@ -1,7 +1,7 @@
 @Library('my-jenkins-shared-library@main') _
 
 pipeline {
-  agent any
+  agent { label 'vinod' }
 
   environment {
     VERSION = generateVersion()
