@@ -65,7 +65,7 @@ pipeline {
          
       }
     failure {
-      sendNotification("❌ Build FAILED for *order-service*. Check Jenkins logs.")
-    }
+    sendNotification("❌ Build FAILED for *${params.appName}*. Check Jenkins logs.")
+  }
   }
 }
