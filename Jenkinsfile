@@ -58,10 +58,10 @@ pipeline {
 
   post {
     always {
-      script {
+      
       archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true
       sendNotification("📦 Build for *order-service* completed. Version: ${VERSION}")
-         }   
+         
       }
     failure {
       sendNotification("❌ Build FAILED for *order-service*. Check Jenkins logs.")
