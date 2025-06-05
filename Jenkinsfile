@@ -7,6 +7,10 @@ pipeline {
     VERSION = generateVersion()
   }
 
+  parameters {
+    choice(name: 'DEPLOY_ENV', choices: ['dev', 'staging', 'production'], description: 'Select deployment environment')
+  }
+
   options {
     timestamps()
     ansiColor('xterm')
@@ -43,7 +47,7 @@ pipeline {
         deployToEnvironment([
           appName    : 'order-service',
           version    : "${VERSION}",
-          environment: 'dev'
+          environment: "${params.DEPLOY_ENV}"
           // namespace, replicas, etc. will be auto-loaded from Environment.groovy
         ])
       }
