@@ -43,9 +43,7 @@ pipeline {
     }
 
     stage('Deploy') {
-      when {
-        expression { isMainBranch() }
-      }
+      
       steps {
         deployToEnvironment([
           appName    : 'order-service',
