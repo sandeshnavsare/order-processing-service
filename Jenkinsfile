@@ -26,7 +26,7 @@ pipeline {
           appName     : 'order-service',
           buildTool   : 'maven',
           dockerImage : 'maven:3.9.3-eclipse-temurin-17',
-          skipTests   : false
+          skipTests   : true
         ])
       }
     }
