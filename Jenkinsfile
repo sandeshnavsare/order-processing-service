@@ -60,7 +60,7 @@ pipeline {
     always {
       
       archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true
-      sendNotification("📦 Build for *order-service* completed. Version: ${VERSION}")
+      
          
       }
     failure {
