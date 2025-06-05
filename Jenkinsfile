@@ -58,7 +58,7 @@ pipeline {
 
   post {
     always {
-      node {
+      script {
       archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true
       sendNotification("📦 Build for *order-service* completed. Version: ${VERSION}")
          }   
